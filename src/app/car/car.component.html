@@ -1,0 +1,14 @@
+<div class="container">
+  <img
+    [src]="'assets/img/' + currentCity + '/' + currentCarId + '.png'"
+    alt=""
+  />
+  <br />
+
+  <p>{{ currentCar.cost }} Euro</p>
+  <br />
+
+  <button [routerLink]="'/reserve/' + currentCity + '/' + currentCarId">
+    reserve
+  </button>
+</div>

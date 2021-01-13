@@ -1,0 +1,9 @@
+.card {
+  padding-top: 10px;
+}
+p.card-text {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 10px 0;
+  justify-content: space-between;
+}

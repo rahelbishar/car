@@ -1,0 +1,258 @@
+{{ currentCar | json }}
+
+<mat-card class="example-card">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>{{ currentCar.name }}</mat-card-title>
+  </mat-card-header>
+  <img
+    mat-card-image
+    [src]="'assets/img/' + currentCity + '/' + currentCarId + '.png'"
+    alt=""
+  />
+
+  <mat-card-content>
+    <p>
+      {{ currentCar.cost }}
+    </p>
+  </mat-card-content>
+</mat-card>
+<br />
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-md-offset-2 col-sm-offset-1">
+      <form
+        [formGroup]="SignupForm"
+        (ngSubmit)="onSubmit()"
+        class="example-form"
+      >
+        <table class="example-full-width" cellspacing="0">
+          <tr>
+            <td>
+              <mat-form-field class="example-full-width">
+                <mat-label>First name</mat-label>
+                <input
+                  matInput
+                  class="form-control"
+                  id="firstname"
+                  formControlName="firstname"
+                />
+                <span
+                  class="help-block"
+                  *ngIf="
+                    !SignupForm.get('firstname').valid &&
+                    SignupForm.get('firstname').touched
+                  "
+                >
+                  <span *ngIf="SignupForm.get('firstname').errors['required']"
+                    >field is required</span
+                  >
+                </span>
+              </mat-form-field>
+            </td>
+
+            <td>
+              <mat-form-field class="example-full-width">
+                <mat-label>Last name</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  class="form-control"
+                  id="lastname"
+                  formControlName="lastname"
+                />
+                <span
+                  class="help-block"
+                  *ngIf="
+                    !SignupForm.get('lastname').valid &&
+                    SignupForm.get('lastname').touched
+                  "
+                >
+                  <span *ngIf="SignupForm.get('lastname').errors['required']"
+                    >field is required</span
+                  >
+                </span>
+              </mat-form-field>
+            </td>
+          </tr>
+        </table>
+        <div formGroupName="adress">
+          <mat-form-field class="example-full-width">
+            <mat-label>City</mat-label>
+            <input
+              matInput
+              type="text"
+              class="form-control"
+              id="city"
+              formControlName="city"
+            />
+            <span
+              class="help-block"
+              *ngIf="
+                !SignupForm.get('adress.city').valid &&
+                SignupForm.get('adress.city').touched
+              "
+            >
+              <span *ngIf="SignupForm.get('adress.city').errors['required']"
+                >field is required</span
+              >
+            </span>
+          </mat-form-field>
+
+          <!--begin div adress -->
+
+          <mat-form-field class="example-full-width">
+            <mat-label>straat</mat-label>
+            <input
+              matInput
+              type="text"
+              class="form-control"
+              id="straat"
+              formControlName="straat"
+            />
+            <span
+              class="help-block"
+              *ngIf="
+                !SignupForm.get('adress.straat').valid &&
+                SignupForm.get('adress.straat').touched
+              "
+            >
+              <span *ngIf="SignupForm.get('adress.straat').errors['required']"
+                >field is required</span
+              >
+            </span>
+          </mat-form-field>
+          <!-- end div adress -->
+        </div>
+        <mat-form-field class="example-full-width">
+          <mat-label>Email</mat-label>
+          <input
+            type="email"
+            matInput
+            formControlName="emailFormControl"
+            placeholder="Ex. pat@example.com"
+          />
+          <mat-error
+            *ngIf="
+              !SignupForm.get('emailFormControl').valid &&
+              SignupForm.get('emailFormControl').touched
+            "
+          >
+            Please enter a valid email address
+          </mat-error>
+          <mat-error
+            *ngIf="SignupForm.get('emailFormControl').hasError('required')"
+          >
+            Email is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width">
+          <mat-label>Telephone</mat-label>
+          <input
+            type="tel"
+            matInput
+            placeholder="555-555-1234"
+            formControlName="phone"
+          />
+          <mat-icon matSuffix>mode_edit</mat-icon>
+          <span
+            class="help-block"
+            *ngIf="
+              !SignupForm.get('phone').valid && SignupForm.get('phone').touched
+            "
+          >
+            please enter a valid phone number
+          </span>
+        </mat-form-field>
+
+        <hr />
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="date">AfhaalDatum</label>
+
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Choose a date</mat-label>
+                <input
+                  formControlName="afhaaldate"
+                  matInput
+                  [matDatepicker]="picker"
+                  (dateInput)="afhaalChange($event.value, 'from')"
+                />
+                <mat-datepicker-toggle matSuffix [for]="picker">
+                  <mat-icon matDatepickerToggleIcon
+                    >keyboard_arrow_down</mat-icon
+                  >
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+
+              <select formControlName="afhaaltime" class="form-control">
+                <option disabled selected>Choose Time</option>
+                <option value="voormiddag">voor middag</option>
+                <option value="namiddag">na middag</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="date">TerugBrengenDatum</label>
+
+              <mat-form-field class="example-full-width" appearance="fill">
+                <mat-label>Choose a date</mat-label>
+                <input
+                  formControlName="terugdate"
+                  matInput
+                  [matDatepicker]="picker2"
+                  (dateInput)="afhaalChange($event.value)"
+                />
+                <mat-datepicker-toggle matSuffix [for]="picker2">
+                  <mat-icon matDatepickerToggleIcon
+                    >keyboard_arrow_down</mat-icon
+                  >
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+              </mat-form-field>
+
+              <select formControlName="terugtime" class="form-control">
+                <option disabled selected>Choose Time</option>
+                <option value="voormiddag">voor middag</option>
+                <option value="namiddag">na middag</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <hr />
+
+        <mat-radio-group aria-label="Select an option" formControlName="period">
+          <mat-radio-button value="Halfdag">Half dag</mat-radio-button>
+          <mat-radio-button value="Heeldag">Heel dag</mat-radio-button>
+        </mat-radio-group>
+
+        <button
+          class="btn btn-primary"
+          type="submit"
+          [disabled]="SignupForm.invalid"
+          (click)="onSubmit()"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="submitted">
+  firstname:{{ user.firstname }}<br />
+  lastname:{{ user.lastname }}<br />
+  city:{{ user.adress.city }}<br />
+  straat:{{ user.adress.straat }} <br />
+  email:{{ user.emailFormControl }} <br />phone:{{ user.phone }}<br />
+  afhaaldate:{{ user.afhaaldate }}<br />
+  afhaaltime:{{ user.afhaaltime }} br> terugbreng:{{ user.terugdate }}<br />
+  terugbrengtime:{{ user.terugtime }} <br />
+  perid:{{ user.period }} <br />
+  kost:{{ user.kost }}
+</div>
