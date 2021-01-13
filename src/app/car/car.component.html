@@ -2,13 +2,22 @@
   <img
     [src]="'assets/img/' + currentCity + '/' + currentCarId + '.png'"
     alt=""
+    class="center"
   />
   <br />
-
-  <p>{{ currentCar.cost }} Euro</p>
   <br />
-
+  <div *ngFor="let detail of currentCar.detail">
+    <p>{{ detail.description }}</p>
+    <hr />
+    <p>kost per dag :{{ currentCar.cost }} Euro</p>
+    <br />
+  </div>
   <button [routerLink]="'/reserve/' + currentCity + '/' + currentCarId">
     reserve
   </button>
-</div>
+  <!-- </div> -->
+  <!--
+  git add .
+  git commit -m 'your message here'
+  git push
+--></div>

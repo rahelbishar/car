@@ -7,3 +7,6 @@ p.card-text {
   grid-gap: 10px 0;
   justify-content: space-between;
 }
+h2.card-title {
+  text-align: center;
+}

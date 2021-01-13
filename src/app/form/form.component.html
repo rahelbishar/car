@@ -1,4 +1,4 @@
-{{ currentCar | json }}
+<!-- {{ currentCar | json }} -->
 
 <mat-card class="example-card">
   <mat-card-header>
@@ -10,11 +10,10 @@
     [src]="'assets/img/' + currentCity + '/' + currentCarId + '.png'"
     alt=""
   />
-
   <mat-card-content>
-    <p>
+    <!-- <p>
       {{ currentCar.cost }}
-    </p>
+    </p> -->
   </mat-card-content>
 </mat-card>
 <br />
@@ -230,29 +229,32 @@
           <mat-radio-button value="Halfdag">Half dag</mat-radio-button>
           <mat-radio-button value="Heeldag">Heel dag</mat-radio-button>
         </mat-radio-group>
-
-        <button
-          class="btn btn-primary"
-          type="submit"
-          [disabled]="SignupForm.invalid"
-          (click)="onSubmit()"
-        >
-          Submit
-        </button>
+        <br />
+        <div style="text-align: center">
+          <button
+            class="btn btn-primary"
+            type="submit"
+            [disabled]="SignupForm.invalid"
+            (click)="onSubmit()"
+          >
+            Submit
+          </button>
+        </div>
       </form>
     </div>
   </div>
 </div>
-
-<div *ngIf="submitted">
-  firstname:{{ user.firstname }}<br />
-  lastname:{{ user.lastname }}<br />
-  city:{{ user.adress.city }}<br />
-  straat:{{ user.adress.straat }} <br />
-  email:{{ user.emailFormControl }} <br />phone:{{ user.phone }}<br />
-  afhaaldate:{{ user.afhaaldate }}<br />
-  afhaaltime:{{ user.afhaaltime }} br> terugbreng:{{ user.terugdate }}<br />
-  terugbrengtime:{{ user.terugtime }} <br />
-  perid:{{ user.period }} <br />
-  kost:{{ user.kost }}
+<div class="row" *ngIf="submitted">
+  <div class="col-md-6">
+    firstname:{{ user.firstname }}<br />
+    lastname:{{ user.lastname }}<br />
+    city:{{ user.adress.city }}<br />
+    straat:{{ user.adress.straat }} <br />
+    email:{{ user.emailFormControl }} <br />phone:{{ user.phone }}<br />
+    afhaaldate:{{ user.afhaaldate }}<br />
+    afhaaltime:{{ user.afhaaltime }} {{ user.terugdate }}<br />
+    terugbrengtime:{{ user.terugtime }} <br />
+    perid:{{ user.period }} <br />
+    kost:{{ user.kost }}
+  </div>
 </div>

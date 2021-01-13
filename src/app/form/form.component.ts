@@ -79,7 +79,7 @@ export class FormComponent implements OnInit {
       terugdate: new FormControl(null, [Validators.required]),
       terugtime: new FormControl('Choose Time', [Validators.required]),
       period: new FormControl('Halfdag'),
-      kost: new FormControl(''),
+      kost: new FormControl(this.currentCar.cost),
     });
   }
 
