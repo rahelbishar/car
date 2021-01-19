@@ -1,9 +1,18 @@
 import { CityCarsComponent } from './../city-cars/city-cars.component';
 import { DataService } from './../data.service';
-import { Car } from './../model/city-cars.model';
+import { Car, CityCars } from './../model/city-cars.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  NgForm,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { validateVerticalPosition } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-form',
@@ -18,22 +27,6 @@ export class FormComponent implements OnInit {
   currentCarId: string;
   submitted: boolean = false;
   periodhuur = ['Halfdag', 'Heledag'];
-  user = {
-    firstname: '',
-    lastname: '',
-    adress: {
-      city: '',
-      straat: '',
-    },
-    emailFormControl: '',
-    phone: '',
-    afhaaldate: '',
-    afhaaltime: '',
-    terugdate: '',
-    terugtime: '',
-    period: '',
-    kost: '',
-  };
 
   SignupForm: FormGroup;
 
@@ -44,8 +37,8 @@ export class FormComponent implements OnInit {
   ) {}
 
   afhaalChange(date, type?): void {
+    // console.log('d', d);
     const d = new Date(date);
-    console.log(d);
     const day = d.getDate();
     const month = d.getMonth() + 1;
     const year = d.getFullYear();
@@ -55,53 +48,73 @@ export class FormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.currentCity = this.activatedRoute.snapshot.params['city'];
-    this.currentCarId = this.activatedRoute.snapshot.params['carId'];
-    this.currentCar = this.dataService.data
-      .filter((city) => city.city === this.currentCity)[0]
-      .cars.filter((car) => car.id === +this.currentCarId)[0];
-    console.log(this.currentCity, this.currentCarId, this.currentCar);
+    this.dataService.mockGetAllCities().subscribe((res: CityCars[]) => {
+      this.currentCity = this.activatedRoute.snapshot.params['city'];
+      this.currentCarId = this.activatedRoute.snapshot.params['carId'];
+      console.log(this.currentCity, this.currentCarId);
 
-    this.SignupForm = new FormGroup({
-      firstname: new FormControl(null, [Validators.required]),
-      lastname: new FormControl(null, [Validators.required]),
-      adress: new FormGroup({
-        city: new FormControl(null, [Validators.required]),
-        straat: new FormControl(null, [Validators.required]),
-      }),
-      emailFormControl: new FormControl(null, [
-        Validators.required,
-        Validators.email,
-      ]),
-      phone: new FormControl(null, [Validators.required]),
-      afhaaldate: new FormControl(null, [Validators.required]),
-      afhaaltime: new FormControl('Choose Time', [Validators.required]),
-      terugdate: new FormControl(null, [Validators.required]),
-      terugtime: new FormControl('Choose Time', [Validators.required]),
-      period: new FormControl('Halfdag'),
-      kost: new FormControl(this.currentCar.cost),
+      this.currentCar = this.dataService.getonauto(
+        res,
+        this.currentCity,
+        +this.currentCarId
+      );
+      this.SignupForm = new FormGroup(
+        {
+          firstname: new FormControl(null, [Validators.required]),
+          lastname: new FormControl(null, [Validators.required]),
+          adress: new FormGroup({
+            city: new FormControl(null, [Validators.required]),
+            straat: new FormControl(null, [Validators.required]),
+          }),
+          emailFormControl: new FormControl(null, [
+            Validators.required,
+            Validators.email,
+          ]),
+          phone: new FormControl(null, [Validators.required]),
+          afhaaldate: new FormControl('', [Validators.required]),
+          afhaaltime: new FormControl('Choose Time', [Validators.required]),
+          terugdate: new FormControl('', [Validators.required]),
+          terugtime: new FormControl('Choose Time', [Validators.required]),
+          period: new FormControl('Halfdag'),
+          kost: new FormControl(this.currentCar.cost),
+        },
+        { validators: checkDates('afhaaldate', 'terugdate') }
+      );
     });
   }
+  // tslint:disable-next-line: typedef
 
   onSubmit() {
     console.log(this.dateFrom, this.dateTo, this.SignupForm.value);
-    this.SignupForm.patchValue({
-      afhaaldate: this.dateFrom,
-      terugdate: this.dateTo,
-    });
-    this.submitted = true;
-    this.user.firstname = this.SignupForm.value.firstname;
-    this.user.lastname = this.SignupForm.value.lastname;
-    this.user.adress.city = this.SignupForm.get('adress.city').value;
-    this.user.adress.straat = this.SignupForm.get('adress.straat').value;
+    // this.SignupForm.patchValue({
+    //   afhaaldate: this.dateFrom,
+    //   terugdate: this.dateTo,
+    // });
+    setTimeout(() => {
+      this.dataService.dataSubject.next(this.SignupForm.value);
+    }, 200);
 
-    this.user.emailFormControl = this.SignupForm.value.emailFormControl;
-    this.user.phone = this.SignupForm.value.phone;
-    this.user.afhaaldate = this.SignupForm.value.afhaaldate;
-    this.user.afhaaltime = this.SignupForm.value.afhaaltime;
-    this.user.terugdate = this.SignupForm.value.terugdate;
-    this.user.terugtime = this.SignupForm.value.terugtime;
-    this.user.period = this.SignupForm.value.period;
-    this.user.kost = this.SignupForm.value.kost;
+    this.router.navigate(['info']);
   }
 }
+const checkDates = (field1: string, field2: string): ValidatorFn => (
+  form: FormGroup
+): null | { [key: string]: boolean } => {
+  console.log(form);
+  const fromDate = convertDate(form.get(field1).value);
+  const toDate = convertDate(form.get(field2).value);
+
+  function convertDate(date): string {
+    const d = new Date(date);
+    const day = d.getDate();
+    const month = d.getMonth() + 1;
+    const year = d.getFullYear();
+    const finalDate = `${day}/${month}/${year}`;
+    return finalDate;
+  }
+
+  if (toDate < fromDate) {
+    return { datesFailed: true };
+  }
+  return null;
+};

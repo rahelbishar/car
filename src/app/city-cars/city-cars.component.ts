@@ -1,7 +1,7 @@
 import { DataService } from './../data.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Car } from './../model/city-cars.model';
+import { Car, CityCars } from './../model/city-cars.model';
 
 @Component({
   selector: 'app-city-cars',
@@ -17,10 +17,10 @@ export class CityCarsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.currentCity = this.activatedRoute.snapshot.params['city'];
-    this.cityCars = this.dataService.data.filter(
-      (city) => city.city === this.currentCity
-    )[0].cars;
-    console.log(this.cityCars);
+    this.dataService.mockGetAllCities().subscribe((res: CityCars[]) => {
+      console.log('mock data is', res);
+      this.currentCity = this.activatedRoute.snapshot.params['city'];
+      this.cityCars = this.dataService.getAutoByCity(res, this.currentCity);
+    });
   }
 }

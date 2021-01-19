@@ -22,6 +22,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { InfoComponent } from './info/info.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     CarComponent,
     NotfoundpageComponent,
     FormComponent,
+    InfoComponent,
   ],
   imports: [
     BrowserModule,

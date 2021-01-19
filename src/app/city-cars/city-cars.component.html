@@ -13,6 +13,35 @@
     </div>
   </li>
 </ul> -->
+<!-- <div class="container" py-4 py-md-5 py-ld-6>
+  <div class="row">
+    <div
+      class="col-12 col-md-4 mx-auto page-content"
+      *ngFor="let car of cityCars"
+    >
+      <div class="card-deck">
+        <div class="card h-100">
+          <a [routerLink]="car.id">
+            <img
+              [src]="'assets/img/' + currentCity + '/' + car.id + '.png'"
+              alt=""
+          /></a>
+          <div class="card-body" *ngFor="let detail of car.detail">
+            <h2 class="card-title">{{ car.name | titlecase }}</h2>
+            <p class="card-text">
+              <span>deur: {{ detail.deur }}</span>
+              <span>plaasts:{{ detail.plaats }}</span>
+              <span>stoff:{{ detail.stoff }}</span>
+              <span>type:{{ detail.type }}</span>
+            </p>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
 <div class="container" py-4 py-md-5 py-ld-6>
   <div class="row">
     <div

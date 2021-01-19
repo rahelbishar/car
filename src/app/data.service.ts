@@ -1,10 +1,15 @@
 import { Injectable } from '@angular/core';
-import { ɵBROWSER_SANITIZATION_PROVIDERS } from '@angular/platform-browser';
-import { CityCars, Detail } from './model/city-cars.model';
+import { ActivatedRoute, Route } from '@angular/router';
+import { Observable, Subject } from 'rxjs';
+import { Car, CityCars, Detail } from './model/city-cars.model';
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
+  CurrentCar: Car;
+  currentCity: string;
+  currentCarid: number;
+  dataSubject = new Subject();
   data: CityCars[] = [
     {
       city: 'Gent',
@@ -163,5 +168,31 @@ export class DataService {
       ],
     },
   ];
-  constructor() {}
+  constructor(private activatedRoute: ActivatedRoute) {}
+
+  // tslint:disable-next-line: typedef
+  mockGetAllCities() {
+    const allCitiesObs = new Observable((subscriber) => {
+      setTimeout(() => {
+        subscriber.next(this.data);
+        subscriber.complete();
+      }, 1000);
+    });
+    return allCitiesObs;
+  }
+
+  getAutoByCity(res: CityCars[], cityName: string): Car[] {
+    const cityCars = res.filter((city) => city.city === cityName)[0].cars;
+    return cityCars;
+  }
+
+  getonauto(res: CityCars[], city: string, id: number): Car {
+    console.log('in service', res, city, id);
+
+    const onecarcity = res
+      .filter((el) => el.city === city)[0]
+      .cars.filter((car) => car.id === id)[0];
+    console.log('back', onecarcity);
+    return onecarcity;
+  }
 }

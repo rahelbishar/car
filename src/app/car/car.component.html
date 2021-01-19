@@ -1,12 +1,13 @@
 <div class="container">
   <img
+    *ngIf="currentCar"
     [src]="'assets/img/' + currentCity + '/' + currentCarId + '.png'"
     alt=""
     class="center"
   />
   <br />
   <br />
-  <div *ngFor="let detail of currentCar.detail">
+  <div *ngFor="let detail of currentCar?.detail">
     <p>{{ detail.description }}</p>
     <hr />
     <p>kost per dag :{{ currentCar.cost }} Euro</p>
@@ -15,9 +16,4 @@
   <button [routerLink]="'/reserve/' + currentCity + '/' + currentCarId">
     reserve
   </button>
-  <!-- </div> -->
-  <!--
-  git add .
-  git commit -m 'your message here'
-  git push
---></div>
+</div>

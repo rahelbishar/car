@@ -6,12 +6,15 @@ import { CarComponent } from './car/car.component';
 import { CityCarsComponent } from './city-cars/city-cars.component';
 import { HomeComponent } from './home/home.component';
 import { NotfoundpageComponent } from './notfoundpage/notfoundpage.component';
+import { InfoComponent } from './info/info.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'city-cars/:city', component: CityCarsComponent },
   { path: 'city-cars/:city/:carId', component: CarComponent },
   { path: 'reserve/:city/:carId', component: FormComponent },
+  { path: 'info', component: InfoComponent },
+
   { path: '**', component: NotfoundpageComponent },
 ];
 

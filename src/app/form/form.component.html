@@ -164,6 +164,9 @@
             please enter a valid phone number
           </span>
         </mat-form-field>
+        <span class="foutdate" *ngIf="SignupForm.errors?.datesFailed">
+          fout date please enter a new date</span
+        >
 
         <hr />
         <div class="row">
@@ -206,6 +209,7 @@
                   [matDatepicker]="picker2"
                   (dateInput)="afhaalChange($event.value)"
                 />
+
                 <mat-datepicker-toggle matSuffix [for]="picker2">
                   <mat-icon matDatepickerToggleIcon
                     >keyboard_arrow_down</mat-icon
@@ -233,9 +237,10 @@
         <div style="text-align: center">
           <button
             class="btn btn-primary"
-            type="submit"
+            type="button"
             [disabled]="SignupForm.invalid"
             (click)="onSubmit()"
+            [routerLink]="'/info' + '/' + currentCity + '/' + currentCarId"
           >
             Submit
           </button>
@@ -244,17 +249,4 @@
     </div>
   </div>
 </div>
-<div class="row" *ngIf="submitted">
-  <div class="col-md-6">
-    firstname:{{ user.firstname }}<br />
-    lastname:{{ user.lastname }}<br />
-    city:{{ user.adress.city }}<br />
-    straat:{{ user.adress.straat }} <br />
-    email:{{ user.emailFormControl }} <br />phone:{{ user.phone }}<br />
-    afhaaldate:{{ user.afhaaldate }}<br />
-    afhaaltime:{{ user.afhaaltime }} {{ user.terugdate }}<br />
-    terugbrengtime:{{ user.terugtime }} <br />
-    perid:{{ user.period }} <br />
-    kost:{{ user.kost }}
-  </div>
-</div>
+{{ SignupForm.errors | json }}

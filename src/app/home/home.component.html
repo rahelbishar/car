@@ -1,16 +1,5 @@
-<!-- <ul>
-  <li *ngFor="let cityCars of dataService.data"><a [routerLink]="'city-cars/'+cityCars.city">{{cityCars.city}}</a></li>
-</ul> -->
-<!-- <div class="container">
-  <div class="row">
-    <div class="col-sm" *ngFor="let cityCars of dataService.data">
-      <a [routerLink]="'city-cars/' + cityCars.city">{{ cityCars.city }}</a>
-    </div>
-  </div>
-</div> -->
-
 <div class="row pt-5">
-  <div class="col-sm-4" *ngFor="let cityCars of dataService.data">
+  <div class="col-sm-4" *ngFor="let cityCars of allCities">
     <a [routerLink]="'city-cars/' + cityCars.city">
       <div class="card h-100">
         <div class="card-body">
